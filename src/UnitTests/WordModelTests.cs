@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace UnitTests
 {
     [TestFixture]
-    public class WordModelTests
+    internal class WordModelTests
     {
         [Test]
         public void ToString_should_output_number()

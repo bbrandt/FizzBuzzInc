@@ -6,9 +6,9 @@ namespace FizzBuzz
 {
     public sealed class NumberToWordDivisibleStrategy : IWordStrategy
     {
-        private int _divisor;
+        private readonly int _divisor;
 
-        private string _word;
+        private readonly string _word;
 
         public NumberToWordDivisibleStrategy(int divisor, string word)
         {

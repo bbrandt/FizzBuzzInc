@@ -7,7 +7,7 @@ using FluentAssertions;
 namespace UnitTests
 {
     [TestFixture]
-    public class CompositeWordStrategy_when_empty
+    internal class CompositeWordStrategy_when_empty
     {
         [Test]
         public void ToString_should_pass_through_value()

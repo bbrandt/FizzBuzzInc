@@ -7,14 +7,14 @@ using NUnit.Framework;
 namespace UnitTests
 {
     [TestFixture]
-    public class FizzBuzzGeneratorTests
+    internal class FizzBuzzGeneratorTests
     {
         [Test]
         public void GetNumbers_should_return_buzz_when_5()
         {
             var fizzBuzzGenerator = new FizzBuzzGenerator();
 
-            fizzBuzzGenerator.GetNumbers(4, 5).ToArray().Should().EndWith("buzz");
+            fizzBuzzGenerator.GetNumbers(4, 5).Should().EndWith("buzz");
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace UnitTests
         {
             var fizzBuzzGenerator = new FizzBuzzGenerator();
 
-            fizzBuzzGenerator.GetNumbers(1, 3).ToArray().Should().EndWith("fizz");
+            fizzBuzzGenerator.GetNumbers(1, 3).Should().EndWith("fizz");
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace UnitTests
         {
             var fizzBuzzGenerator = new FizzBuzzGenerator();
 
-            fizzBuzzGenerator.GetNumbers(1, 15).ToArray().Should().EndWith("fizzbuzz");
+            fizzBuzzGenerator.GetNumbers(1, 15).Should().EndWith("fizzbuzz");
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace UnitTests
         {
             var fizzBuzzGenerator = new FizzBuzzGenerator();
 
-            fizzBuzzGenerator.GetNumbers(2, 2).ToArray().Should().EndWith("2");
+            fizzBuzzGenerator.GetNumbers(2, 2).Should().EndWith("2");
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace UnitTests
         {
             var fizzBuzzGenerator = new FizzBuzzGenerator();
 
-            fizzBuzzGenerator.GetNumbers(int.MaxValue - 5, int.MaxValue).ToArray().Should()
+            fizzBuzzGenerator.GetNumbers(int.MaxValue - 5, int.MaxValue).Should()
                 .StartWith((int.MaxValue - 5).ToString()).And.EndWith(int.MaxValue.ToString());
         }
 
@@ -65,7 +65,7 @@ namespace UnitTests
         {
             var fizzBuzzGenerator = new FizzBuzzGenerator();
 
-            fizzBuzzGenerator.GetNumbers(-3, -1).ToArray().Should()
+            fizzBuzzGenerator.GetNumbers(-3, -1).Should()
                 .StartWith("fizz").And.EndWith("-1");
         }
 
