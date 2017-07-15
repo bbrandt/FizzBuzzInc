@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace FizzBuzz
 {
-    public class FizzBuzzGenerator
+    public sealed class FizzBuzzGenerator
     {
         public IEnumerable<string> GetNumbers(int start, int end)
         {
