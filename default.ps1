@@ -34,6 +34,8 @@ properties {
     $AliaSql = "$source_dir\Database\scripts\AliaSql.exe"
     $webapp_dir = "$source_dir\UI"
 
+	
+    if(![string]::IsNullOrEmpty($env:APPVEYOR_BUILD_VERSION)) { $version = $env:APPVEYOR_BUILD_VERSION}
     if([string]::IsNullOrEmpty($version)) { $version = "1.0.0"}
     if([string]::IsNullOrEmpty($projectConfig)) {$projectConfig = "Release"}
     if([string]::IsNullOrEmpty($runOctoPack)) {$runOctoPack = "true"}
