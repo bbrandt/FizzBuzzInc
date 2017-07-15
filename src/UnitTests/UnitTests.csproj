@@ -136,6 +136,7 @@
     <Compile Include="..\..\src\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CompositeWordStrategyTests.cs" />
     <Compile Include="WordGeneratorTests.cs" />
     <Compile Include="FizzBuzzGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

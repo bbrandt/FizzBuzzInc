@@ -9,10 +9,21 @@ namespace UnitTests
     [TestFixture]
     public class WordGeneratorTests
     {
+        IWordGenerator GetFizzBuzzWordGenerator()
+        {
+            return new WordGenerator(
+                new CompositeWordStrategy(
+                    new[]
+                    {
+                        new NumberToWordDivisibleStrategy(3, "fizz"),
+                        new NumberToWordDivisibleStrategy(5, "buzz")
+                    }));
+        }
+
         [Test]
         public void GetNumbers_should_return_buzz_when_5()
         {
-            var fizzBuzzGenerator = new FizzBuzzGenerator();
+            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
 
             fizzBuzzGenerator.GetNumbers(4, 5).ToArray().Should().EndWith("buzz");
         }
@@ -20,7 +31,7 @@ namespace UnitTests
         [Test]
         public void GetNumbers_should_return_fizz_when_3()
         {
-            var fizzBuzzGenerator = new FizzBuzzGenerator();
+            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
 
             fizzBuzzGenerator.GetNumbers(1, 3).ToArray().Should().EndWith("fizz");
         }
@@ -28,7 +39,7 @@ namespace UnitTests
         [Test]
         public void GetNumbers_should_return_fizzbuzz_when_15()
         {
-            var fizzBuzzGenerator = new FizzBuzzGenerator();
+            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
 
             fizzBuzzGenerator.GetNumbers(1, 15).ToArray().Should().EndWith("fizzbuzz");
         }
@@ -36,7 +47,7 @@ namespace UnitTests
         [Test]
         public void GetNumbers_should_support_single_number()
         {
-            var fizzBuzzGenerator = new FizzBuzzGenerator();
+            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
 
             fizzBuzzGenerator.GetNumbers(2, 2).ToArray().Should().EndWith("2");
         }
@@ -44,7 +55,7 @@ namespace UnitTests
         [Test]
         public void GetNumbers_should_support_up_to_max_int()
         {
-            var fizzBuzzGenerator = new FizzBuzzGenerator();
+            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
 
             fizzBuzzGenerator.GetNumbers(int.MaxValue - 5, int.MaxValue).ToArray().Should()
                 .StartWith((int.MaxValue - 5).ToString()).And.EndWith(int.MaxValue.ToString());
@@ -53,7 +64,7 @@ namespace UnitTests
         [Test]
         public void GetNumbers_should_throw_when_reversed()
         {
-            var fizzBuzzGenerator = new FizzBuzzGenerator();
+            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
 
             Action act = () => fizzBuzzGenerator.GetNumbers(57, 54).ToArray();
 
@@ -63,20 +74,10 @@ namespace UnitTests
         [Test]
         public void GetNumbers_should_support_negative_numbers()
         {
-            var fizzBuzzGenerator = new FizzBuzzGenerator();
+            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
 
             fizzBuzzGenerator.GetNumbers(-3, -1).ToArray().Should()
                 .StartWith("fizz").And.EndWith("-1");
         }
-
-        // Configure CI 
-
-        // git repo
-
-        // Add build script 
-
-        // Allow user to pass in as many number and word pairs as they like to replace the generated numbers
-
-        // Add tests to ensure no regression 
     }
 }
