@@ -31,8 +31,6 @@ configuration: Release
 
 os: Visual Studio 2017
 
-build: off
-
-after_build:
-  - ci.cmd
+build_script:
+- cmd: ci.bat
 
