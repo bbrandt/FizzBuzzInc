@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using FizzBuzz;
 using FluentAssertions;
@@ -47,6 +48,25 @@ namespace UnitTests
 
             fizzBuzzGenerator.GetNumbers(int.MaxValue - 5, int.MaxValue).ToArray().Should()
                 .StartWith((int.MaxValue - 5).ToString()).And.EndWith(int.MaxValue.ToString());
+        }
+
+        [Test]
+        public void GetNumbers_should_throw_when_reversed()
+        {
+            var fizzBuzzGenerator = new FizzBuzzGenerator();
+
+            Action act = () => fizzBuzzGenerator.GetNumbers(57, 54).ToArray();
+
+            act.ShouldThrow<ArgumentOutOfRangeException>();
+        }
+
+        [Test]
+        public void GetNumbers_should_support_negative_numbers()
+        {
+            var fizzBuzzGenerator = new FizzBuzzGenerator();
+
+            fizzBuzzGenerator.GetNumbers(-3, -1).ToArray().Should()
+                .StartWith("fizz").And.EndWith("-1");
         }
 
         // Configure CI 
