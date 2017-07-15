@@ -86,7 +86,7 @@ task Test -depends Compile {
 }
 
 task Publish -depends Tests {
-	Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+	Get-ChildItem $nupkgs | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 }
 
 task AcceptanceTest -depends Test {
