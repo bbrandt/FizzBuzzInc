@@ -287,3 +287,4 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 #/build/Tools/NuGet/nuget.exe
+build/test/
