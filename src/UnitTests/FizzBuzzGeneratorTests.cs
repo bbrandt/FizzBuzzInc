@@ -3,17 +3,17 @@ using FizzBuzz;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace FizzBuzzTests
+namespace UnitTests
 {
     [TestFixture]
     public class FizzBuzzGeneratorTests
     {
         [Test]
-        public void GetNumbers_should_return_fizzbuzz_when_15()
+        public void GetNumbers_should_return_buzz_when_5()
         {
             var fizzBuzzGenerator = new FizzBuzzGenerator();
 
-            fizzBuzzGenerator.GetNumbers(1, 15).ToArray().Should().EndWith("fizzbuzz");
+            fizzBuzzGenerator.GetNumbers(4, 5).ToArray().Should().EndWith("buzz");
         }
 
         [Test]
@@ -24,15 +24,39 @@ namespace FizzBuzzTests
             fizzBuzzGenerator.GetNumbers(1, 3).ToArray().Should().EndWith("fizz");
         }
 
+        [Test]
+        public void GetNumbers_should_return_fizzbuzz_when_15()
+        {
+            var fizzBuzzGenerator = new FizzBuzzGenerator();
 
-        // Add tests to ensure no regression 
+            fizzBuzzGenerator.GetNumbers(1, 15).ToArray().Should().EndWith("fizzbuzz");
+        }
 
-        // Allow user to pass in as many number and word pairs as they like to replace the generated numbers
+        [Test]
+        public void GetNumbers_should_support_single_number()
+        {
+            var fizzBuzzGenerator = new FizzBuzzGenerator();
 
-        // Add build script 
+            fizzBuzzGenerator.GetNumbers(2, 2).ToArray().Should().EndWith("2");
+        }
+
+        [Test]
+        public void GetNumbers_should_support_up_to_max_int()
+        {
+            var fizzBuzzGenerator = new FizzBuzzGenerator();
+
+            fizzBuzzGenerator.GetNumbers(int.MaxValue - 5, int.MaxValue).ToArray().Should()
+                .StartWith((int.MaxValue - 5).ToString()).And.EndWith(int.MaxValue.ToString());
+        }
+
+        // Configure CI 
 
         // git repo
 
-        // Configure CI 
+        // Add build script 
+
+        // Allow user to pass in as many number and word pairs as they like to replace the generated numbers
+
+        // Add tests to ensure no regression 
     }
 }
