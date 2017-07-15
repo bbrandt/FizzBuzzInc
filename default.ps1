@@ -14,6 +14,7 @@ properties {
     $specflowPath = Resolve-Path("$source_dir\packages\SpecFlow*\tools")
 	$nunitoutput = "--result=$build_dir\TestResult.xml"
 	
+	# Psake support not yet officially available for MSBuild 15.0
 	$msbuildExe = Resolve-Path("C:\Program Files (x86)\Microsoft Visual Studio\2017\*\MSBuild\15.0\Bin\msbuild")
 
 	$build_dir = "$base_dir\build"
@@ -22,6 +23,8 @@ properties {
 	$package_dir = "$build_dir\package"	
 	$package_file = "$build_dir\latestVersion\" + $projectName +"_Package.zip"
     $runOctoPack = $env:RunOctoPack
+
+	$nupkgs = Join-Path $build_dir "*.nupkg"
 
     $databaseName = $projectName
     $databaseServer = "localhost\SQLEXPRESS2014"
@@ -42,7 +45,7 @@ properties {
 }
 
 task default -depends Init, Compile, Test
-task ci -depends CiInit, Init, CommonAssemblyInfo, Compile, Test
+task ci -depends CiInit, Init, CommonAssemblyInfo, Compile, Test, Publish
 
 task CiInit {
 	$script:nunitoutput = "--result=myresults.xml;format=AppVeyor"
@@ -69,7 +72,7 @@ task ConnectionString {
 
 task Compile -depends Init {
 	exec {
-        & $msbuildExe /t:Clean`;Rebuild /v:q /nologo /tv:14.0 /p:Configuration=$projectConfig /p:OctoPackPackageVersion=$version /p:RunOctoPack=$runOctoPack /p:OctoPackEnforceAddingFiles=true $source_dir\$projectName.sln
+        & $msbuildExe /t:Clean`;Rebuild /v:q /nologo /p:Configuration=$projectConfig /p:OctoPackPackageVersion=$version /p:RunOctoPack=$runOctoPack /p:OctoPackEnforceAddingFiles=true $source_dir\$projectName.sln
     }
 
 	Copy_and_flatten $source_dir *.nupkg $build_dir
@@ -80,6 +83,10 @@ task Test -depends Compile {
     exec {
         & $nunitPath\nunit3-console.exe $test_dir\$unitTestAssembly $script:nunitoutput --workers=1 --noheader 
     }
+}
+
+task Publish -depends Tests {
+	Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 }
 
 task AcceptanceTest -depends Test {
