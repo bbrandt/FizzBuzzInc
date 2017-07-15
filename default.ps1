@@ -72,6 +72,7 @@ task ConnectionString {
 
 task Compile -depends Init {
 	exec {
+		echo "$msbuildExe"
         & $msbuildExe /t:Clean`;Rebuild /v:q /nologo /p:Configuration=$projectConfig /p:OctoPackPackageVersion=$version /p:RunOctoPack=$runOctoPack /p:OctoPackEnforceAddingFiles=true $source_dir\$projectName.sln
     }
 
