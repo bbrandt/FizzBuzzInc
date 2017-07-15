@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="CompositeWordStrategyTests.cs" />
     <Compile Include="WordGeneratorTests.cs" />
+    <Compile Include="WordGeneratorTests_when_replacing_FizzBuzzGenerator.cs" />
     <Compile Include="FizzBuzzGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WordModelTests.cs" />

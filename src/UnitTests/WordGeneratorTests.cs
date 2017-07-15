@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using FizzBuzz;
 using FluentAssertions;
 using NUnit.Framework;
@@ -9,75 +7,55 @@ namespace UnitTests
     [TestFixture]
     public class WordGeneratorTests
     {
-        IWordGenerator GetFizzBuzzWordGenerator()
+        [Test]
+        public void GetNumber_should_support_customizable_word()
         {
-            return new WordGenerator(
+            var sut = new WordGenerator(
                 new CompositeWordStrategy(
                     new[]
                     {
-                        new NumberToWordDivisibleStrategy(3, "fizz"),
-                        new NumberToWordDivisibleStrategy(5, "buzz")
+                        new NumberToWordDivisibleStrategy(4, "foo"),
+                        new NumberToWordDivisibleStrategy(7, "bar"),
+                        new NumberToWordDivisibleStrategy(13, "baz"),
+                        new NumberToWordDivisibleStrategy(23, "qux")
                     }));
+
+            sut.GetNumbers(3, 25).ShouldBeEquivalentTo(new[]
+            {
+                "3", "foo", "5", "6", "bar", "foo", "9", "10", "11", "foo", "baz", "bar", "15", "foo", "17", "18", "19",
+                "foo", "bar", "22", "qux", "foo", "25"
+            });
         }
 
         [Test]
-        public void GetNumbers_should_return_buzz_when_5()
+        public void GetNumber_should_support_multiple_combinations()
         {
-            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
+            var sut = new WordGenerator(
+                new CompositeWordStrategy(
+                    new[]
+                    {
+                        new NumberToWordDivisibleStrategy(2, "foo"),
+                        new NumberToWordDivisibleStrategy(4, "bar"),
+                        new NumberToWordDivisibleStrategy(8, "baz")
+                    }));
 
-            fizzBuzzGenerator.GetNumbers(4, 5).ToArray().Should().EndWith("buzz");
+            sut.GetNumbers(7, 9).ShouldBeEquivalentTo(new[] { "7", "foobarbaz", "9" });
         }
 
         [Test]
-        public void GetNumbers_should_return_fizz_when_3()
+        public void GetNumber_should_support_duplicates()
         {
-            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
+            var sut = new WordGenerator(
+                new CompositeWordStrategy(
+                    new[]
+                    {
+                        new NumberToWordDivisibleStrategy(3, "foo"),
+                        new NumberToWordDivisibleStrategy(3, "bar"),
+                        new NumberToWordDivisibleStrategy(3, "baz"),
+                        new NumberToWordDivisibleStrategy(3, "qux")
+                    }));
 
-            fizzBuzzGenerator.GetNumbers(1, 3).ToArray().Should().EndWith("fizz");
-        }
-
-        [Test]
-        public void GetNumbers_should_return_fizzbuzz_when_15()
-        {
-            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
-
-            fizzBuzzGenerator.GetNumbers(1, 15).ToArray().Should().EndWith("fizzbuzz");
-        }
-
-        [Test]
-        public void GetNumbers_should_support_single_number()
-        {
-            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
-
-            fizzBuzzGenerator.GetNumbers(2, 2).ToArray().Should().EndWith("2");
-        }
-
-        [Test]
-        public void GetNumbers_should_support_up_to_max_int()
-        {
-            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
-
-            fizzBuzzGenerator.GetNumbers(int.MaxValue - 5, int.MaxValue).ToArray().Should()
-                .StartWith((int.MaxValue - 5).ToString()).And.EndWith(int.MaxValue.ToString());
-        }
-
-        [Test]
-        public void GetNumbers_should_throw_when_reversed()
-        {
-            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
-
-            Action act = () => fizzBuzzGenerator.GetNumbers(57, 54).ToArray();
-
-            act.ShouldThrow<ArgumentOutOfRangeException>();
-        }
-
-        [Test]
-        public void GetNumbers_should_support_negative_numbers()
-        {
-            var fizzBuzzGenerator = GetFizzBuzzWordGenerator();
-
-            fizzBuzzGenerator.GetNumbers(-3, -1).ToArray().Should()
-                .StartWith("fizz").And.EndWith("-1");
+            sut.GetNumbers(2, 3).ShouldBeEquivalentTo(new[] { "2", "foobarbazqux" });
         }
     }
 }
