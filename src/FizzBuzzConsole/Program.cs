@@ -1,5 +1,6 @@
 ﻿using System;
-using FizzBuzz;
+using FizzBuzz.Features.CustomGenerator;
+using FizzBuzz.Features.LegacyGenerator;
 
 namespace FizzBuzzConsole
 {

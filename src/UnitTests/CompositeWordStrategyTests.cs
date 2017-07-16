@@ -1,7 +1,6 @@
-using FizzBuzz;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Linq;
+using FizzBuzz.Features.CustomGenerator;
 using FluentAssertions;
 
 namespace UnitTests

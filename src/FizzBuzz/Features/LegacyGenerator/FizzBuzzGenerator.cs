@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace FizzBuzz
+namespace FizzBuzz.Features.LegacyGenerator
 {
     public sealed class FizzBuzzGenerator : IWordGenerator
     {

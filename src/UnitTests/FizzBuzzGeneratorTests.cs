@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using FizzBuzz;
+using FizzBuzz.Features.LegacyGenerator;
 using FluentAssertions;
 using NUnit.Framework;
 

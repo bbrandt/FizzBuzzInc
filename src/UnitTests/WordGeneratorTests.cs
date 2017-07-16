@@ -1,4 +1,4 @@
-using FizzBuzz;
+using FizzBuzz.Features.CustomGenerator;
 using FluentAssertions;
 using NUnit.Framework;
 

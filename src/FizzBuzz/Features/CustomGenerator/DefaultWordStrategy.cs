@@ -1,4 +1,4 @@
-namespace FizzBuzz
+namespace FizzBuzz.Features.CustomGenerator
 {
     class DefaultWordStrategy : IWordStrategy
     {

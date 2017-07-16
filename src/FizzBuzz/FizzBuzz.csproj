@@ -48,15 +48,15 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="CompositeWordStrategy.cs" />
-    <Compile Include="DefaultWordStrategy.cs" />
-    <Compile Include="FizzBuzzGenerator.cs" />
+    <Compile Include="Features\CustomGenerator\CompositeWordStrategy.cs" />
+    <Compile Include="Features\CustomGenerator\DefaultWordStrategy.cs" />
+    <Compile Include="Features\LegacyGenerator\FizzBuzzGenerator.cs" />
     <Compile Include="IWordGenerator.cs" />
-    <Compile Include="IWordStrategy.cs" />
-    <Compile Include="NumberToWordStrategy.cs" />
+    <Compile Include="Features\CustomGenerator\IWordStrategy.cs" />
+    <Compile Include="Features\CustomGenerator\NumberToWordStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WordGenerator.cs" />
-    <Compile Include="WordModel.cs" />
+    <Compile Include="Features\CustomGenerator\WordGenerator.cs" />
+    <Compile Include="Features\CustomGenerator\WordModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

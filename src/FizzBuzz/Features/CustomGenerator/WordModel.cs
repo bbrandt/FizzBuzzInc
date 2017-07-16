@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace FizzBuzz
+namespace FizzBuzz.Features.CustomGenerator
 {
     public sealed class WordModel
     {

@@ -1,4 +1,4 @@
-﻿namespace FizzBuzz
+﻿namespace FizzBuzz.Features.CustomGenerator
 {
     public interface IWordStrategy
     {
