@@ -87,7 +87,7 @@ task Compile -depends Init {
 task Test -depends Compile {
     copy_all_assemblies_for_test $test_dir
     exec {
-        & $nunitPath\nunit3-console.exe $test_dir\$unitTestAssembly $script:nunitoutput --workers=1 --noheader 
+        & $nunitExe $test_dir\$unitTestAssembly $script:nunitoutput --workers=1 --noheader 
     }
 }
 
@@ -98,7 +98,7 @@ task Publish -depends Test {
 task AcceptanceTest -depends Test {
     copy_all_assemblies_for_test $test_dir
 	exec {
-        & $nunitPath\nunit3-console.exe $test_dir\$acceptanceTestAssembly $script:nunitoutput --workers=1 --noheader --result="$build_dir\AcceptanceTestResult.xml"`;format=nunit2 --out="$build_dir\AcceptanceTestResult.txt"
+        & $nunitExe $test_dir\$acceptanceTestAssembly $script:nunitoutput --workers=1 --noheader --result="$build_dir\AcceptanceTestResult.xml"`;format=nunit2 --out="$build_dir\AcceptanceTestResult.txt"
         & $specflowPath\specflow.exe nunitexecutionreport $acceptanceTestProject /xmlTestResult:"$build_dir\AcceptanceTestResult.xml" /testOutput:"$build_dir\AcceptanceTestResult.txt" /out:"$build_dir\AcceptanceTestResult.html"
 	}
 }
@@ -111,7 +111,7 @@ task RebuildDatabase -depends ConnectionString {
 
 task LoadData -depends ConnectionString, Compile, RebuildDatabase {
 	exec { 
-		& $nunitPath\nunit3-console.exe $test_dir\$integrationTestAssembly --where "cat == DataLoader" --noheader --result="$build_dir\DataLoadResult.xml"`;format=nunit3
+		& $nunitExe $test_dir\$integrationTestAssembly --where "cat == DataLoader" --noheader --result="$build_dir\DataLoadResult.xml"`;format=nunit3
     } "Build failed - data load failure"  
 }
 
