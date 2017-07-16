@@ -39,7 +39,7 @@ namespace UnitTests
                         new NumberToWordDivisibleStrategy(8, "baz")
                     }));
 
-            sut.GetNumbers(7, 9).ShouldBeEquivalentTo(new[] { "7", "foobadsfdfdsrbaz", "9" });
+            sut.GetNumbers(7, 9).ShouldBeEquivalentTo(new[] { "7", "foobarbaz", "9" });
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace UnitTests
                         new NumberToWordDivisibleStrategy(3, "qux")
                     }));
 
-            sut.GetNumbers(2, 3).ShouldBeEquivalentTo(new[] { "2", "foobasdfdsrbazqux" });
+            sut.GetNumbers(2, 3).ShouldBeEquivalentTo(new[] { "2", "foobarbazqux" });
         }
     }
 }
