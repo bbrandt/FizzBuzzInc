@@ -11,6 +11,9 @@ properties {
 	$projectConfig = $env:Configuration
     $version = $env:Version
     $nunitPath = Resolve-Path("$source_dir\packages\NUnit.Console*\Tools")
+
+	$nunitExe = Join-Path $nunitPath nunit3-console.exe
+
     $specflowPath = Resolve-Path("$source_dir\packages\SpecFlow*\tools")
 	$nunitoutput = "--result=$build_dir\TestResult.xml"
 	
@@ -38,7 +41,7 @@ properties {
     $webapp_dir = "$source_dir\UI"
 
 	
-    if(![string]::IsNullOrEmpty($env:APPVEYOR_BUILD_VERSION)) { $version = $env:APPVEYOR_BUILD_VERSION}
+    if(![string]::IsNullOrEmpty($env:APPVEYOR_BUILD_VERSION)) { $version = $env:APPVEYOR_BUILD_VERSION }
     if([string]::IsNullOrEmpty($version)) { $version = "1.0.0"}
     if([string]::IsNullOrEmpty($projectConfig)) {$projectConfig = "Release"}
     if([string]::IsNullOrEmpty($runOctoPack)) {$runOctoPack = "true"}
@@ -48,7 +51,9 @@ task default -depends Init, Compile, Test
 task ci -depends CiInit, Init, CommonAssemblyInfo, Compile, Test, Publish
 
 task CiInit {
-	$script:nunitoutput = "--result=myresults.xml;format=AppVeyor"
+	# AppVeyor uses a special build of nunit3-console for the AppVeyor format
+	$script:nunitExe = "nunit3-console"
+	$script:nunitoutput = "--result=$build_dir\TestResult.xml;format=AppVeyor"
 }
 
 task Init {
@@ -72,7 +77,8 @@ task ConnectionString {
 
 task Compile -depends Init {
 	exec {
-        & $msbuildExe /t:Clean`;Rebuild /v:q /nologo /p:Configuration=$projectConfig /p:OctoPackPackageVersion=$version /p:RunOctoPack=$runOctoPack /p:OctoPackEnforceAddingFiles=true $source_dir\$projectName.sln
+		#echo "$msbuildExe"
+        & msbuild /t:Clean`;Rebuild /v:q /nologo /p:Configuration=$projectConfig /p:OctoPackPackageVersion=$version /p:RunOctoPack=$runOctoPack /p:OctoPackEnforceAddingFiles=true $source_dir\$projectName.sln
     }
 
 	Copy_and_flatten $source_dir *.nupkg $build_dir
@@ -81,7 +87,7 @@ task Compile -depends Init {
 task Test -depends Compile {
     copy_all_assemblies_for_test $test_dir
     exec {
-        & $nunitPath\nunit3-console.exe $test_dir\$unitTestAssembly $script:nunitoutput --workers=1 --noheader 
+        & $nunitExe $test_dir\$unitTestAssembly $script:nunitoutput --workers=1 --noheader 
     }
 }
 
@@ -92,7 +98,7 @@ task Publish -depends Test {
 task AcceptanceTest -depends Test {
     copy_all_assemblies_for_test $test_dir
 	exec {
-        & $nunitPath\nunit3-console.exe $test_dir\$acceptanceTestAssembly $script:nunitoutput --workers=1 --noheader --result="$build_dir\AcceptanceTestResult.xml"`;format=nunit2 --out="$build_dir\AcceptanceTestResult.txt"
+        & $nunitExe $test_dir\$acceptanceTestAssembly $script:nunitoutput --workers=1 --noheader --result="$build_dir\AcceptanceTestResult.xml"`;format=nunit2 --out="$build_dir\AcceptanceTestResult.txt"
         & $specflowPath\specflow.exe nunitexecutionreport $acceptanceTestProject /xmlTestResult:"$build_dir\AcceptanceTestResult.xml" /testOutput:"$build_dir\AcceptanceTestResult.txt" /out:"$build_dir\AcceptanceTestResult.html"
 	}
 }
@@ -105,7 +111,7 @@ task RebuildDatabase -depends ConnectionString {
 
 task LoadData -depends ConnectionString, Compile, RebuildDatabase {
 	exec { 
-		& $nunitPath\nunit3-console.exe $test_dir\$integrationTestAssembly --where "cat == DataLoader" --noheader --result="$build_dir\DataLoadResult.xml"`;format=nunit3
+		& $nunitExe $test_dir\$integrationTestAssembly --where "cat == DataLoader" --noheader --result="$build_dir\DataLoadResult.xml"`;format=nunit3
     } "Build failed - data load failure"  
 }
 
