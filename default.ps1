@@ -13,8 +13,6 @@ properties {
     $nunitPath = Resolve-Path("$source_dir\packages\NUnit.Console*\Tools")
 
 	$nunitExe = Join-Path $nunitPath nunit3-console.exe
-	# AppVeyor uses a special build of nunit3-console for /AppVeyor switch
-	if(![string]::IsNullOrEmpty($env:APPVEYOR_BUILD_VERSION)) { $nunitExe = "nunit3-console.exe"}
 
     $specflowPath = Resolve-Path("$source_dir\packages\SpecFlow*\tools")
 	$nunitoutput = "--result=$build_dir\TestResult.xml"
@@ -53,7 +51,9 @@ task default -depends Init, Compile, Test
 task ci -depends CiInit, Init, CommonAssemblyInfo, Compile, Test, Publish
 
 task CiInit {
-	$script:nunitoutput = "--result=myresults.xml;format=AppVeyor"
+	# AppVeyor uses a special build of nunit3-console for the AppVeyor format
+	$script:nunitExe = "nunit3-console"
+	$script:nunitoutput = "--result=$build_dir\TestResult.xml;format=AppVeyor"
 }
 
 task Init {
