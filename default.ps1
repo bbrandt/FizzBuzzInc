@@ -11,6 +11,11 @@ properties {
 	$projectConfig = $env:Configuration
     $version = $env:Version
     $nunitPath = Resolve-Path("$source_dir\packages\NUnit.Console*\Tools")
+
+	$nunitExe = Join-Path $nunitPath nunit3-console.exe
+	# AppVeyor uses a special build of nunit3-console for /AppVeyor switch
+	if(![string]::IsNullOrEmpty($env:APPVEYOR_BUILD_VERSION)) { $nunitExe = "nunit3-console.exe"}
+
     $specflowPath = Resolve-Path("$source_dir\packages\SpecFlow*\tools")
 	$nunitoutput = "--result=$build_dir\TestResult.xml"
 	
@@ -38,7 +43,7 @@ properties {
     $webapp_dir = "$source_dir\UI"
 
 	
-    if(![string]::IsNullOrEmpty($env:APPVEYOR_BUILD_VERSION)) { $version = $env:APPVEYOR_BUILD_VERSION}
+    if(![string]::IsNullOrEmpty($env:APPVEYOR_BUILD_VERSION)) { $version = $env:APPVEYOR_BUILD_VERSION }
     if([string]::IsNullOrEmpty($version)) { $version = "1.0.0"}
     if([string]::IsNullOrEmpty($projectConfig)) {$projectConfig = "Release"}
     if([string]::IsNullOrEmpty($runOctoPack)) {$runOctoPack = "true"}
