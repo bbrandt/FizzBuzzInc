@@ -60,6 +60,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CompositeWordStrategyTests.cs" />
+    <Compile Include="Features\CustomGenerator\NumberToWordDivisibleStrategyTests.cs" />
     <Compile Include="WordGeneratorTests.cs" />
     <Compile Include="WordGeneratorTests_when_replacing_FizzBuzzGenerator.cs" />
     <Compile Include="FizzBuzzGeneratorTests.cs" />

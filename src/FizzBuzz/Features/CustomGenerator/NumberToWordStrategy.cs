@@ -1,4 +1,6 @@
-﻿namespace FizzBuzz.Features.CustomGenerator
+﻿using System;
+
+namespace FizzBuzz.Features.CustomGenerator
 {
     public sealed class NumberToWordDivisibleStrategy : IWordStrategy
     {
@@ -8,6 +10,11 @@
 
         public NumberToWordDivisibleStrategy(int divisor, string word)
         {
+            if (divisor == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(divisor), "A number may not be divided by zero.");
+            }
+
             _divisor = divisor;
             _word = word;
         }

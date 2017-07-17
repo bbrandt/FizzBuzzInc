@@ -8,9 +8,8 @@ namespace FizzBuzzConsole
     {
         private static void Main(string[] args)
         {
-            RunWordGenerator();
-
             //// RunLegacyGenerator();
+            RunWordGenerator();
         }
 
         private static void RunWordGenerator()
